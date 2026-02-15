@@ -61,6 +61,43 @@ Backend → http://localhost:8000
 Frontend → http://localhost:3000  
 
 ---
+## 🚀 API Documentation (Swagger UI)
+FastAPI automatically generates interactive API documentation.
+
+**Swagger UI:**  
+http://localhost:8000/docs
+
+**ReDoc:**  
+http://localhost:8000/redoc
+
+---
+
+## 📡 API Base URL
+All API endpoints follow this base structure:
+http://localhost:8000/api/v1/{endpoint}
+
+Example:
+
+- **Profile:**  
+  `GET http://localhost:8000/api/v1/profile`
+
+- **Health Check:**  
+  `GET http://localhost:8000/health`
+
+---
+
+## 📦 Common API Response Structure
+
+Every API returns a consistent JSON structure:
+```json
+{
+  "success": true,
+  "message": "Description of the result",
+  "status": 200,
+  "data": { ... }
+}
+---
+
 
 ## 📌 Current Status
 
