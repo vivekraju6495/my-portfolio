@@ -94,7 +94,7 @@ Every API returns a consistent JSON structure:
   "success": true,
   "message": "Description of the result",
   "status": 200,
-  "data": { ... }
+  "data": { }
 }
 ---
 
