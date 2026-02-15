@@ -30,14 +30,6 @@ It is fully dynamic (database‑driven) and includes AI tools for resume Q&A, jo
 
 ---
 
-## 📂 Project Structure
-my-portfolio/ 
-│── backend/ # FastAPI backend │   ├── app/ │   ├── routers/ │   ├── models/ │   ├── schemas/ │   └── main.py │ 
-│── frontend/# Next.js frontend │   ├── app/ │   ├── components/ │   └── pages/ │ │── db/ │   ├── schema.sql       
- # All resume tables │   └── seed_plan.md      # How data will be inserted │ │── docker/ │── docker-compose.yml │── README.md │── .gitignore
-
----
-
 ## 🧠 AI Features
 
 ### 1. Resume Q&A  
