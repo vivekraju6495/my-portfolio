@@ -89,7 +89,7 @@ Example:
 ## 📦 Common API Response Structure
 
 Every API returns a consistent JSON structure:
-```json
+
 {
   "success": true,
   "message": "Description of the result",
@@ -97,8 +97,6 @@ Every API returns a consistent JSON structure:
   "data": { }
 }
 ---
-
-
 ## 📌 Current Status
 
 - Backend, frontend, database schema, and project setup are complete.  
