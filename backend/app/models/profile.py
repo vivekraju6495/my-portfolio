@@ -20,9 +20,3 @@ class Profile(Base):
     work_auth = Column(String(255), nullable=False)
     summary = Column(Text, nullable=False)
 
-    achievements = relationship(
-        "ProjectAchievement",
-        back_populates="project",
-        cascade="all, delete-orphan"
-    )
-

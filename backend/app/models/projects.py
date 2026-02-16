@@ -2,7 +2,7 @@ import uuid
 from sqlalchemy import Column, Integer, String, Text
 from sqlalchemy.dialects.postgresql import UUID
 from app.core.database import Base
-
+from sqlalchemy.orm import relationship
 class Project(Base):
     __tablename__ = "projects"
 
@@ -16,3 +16,12 @@ class Project(Base):
     project_url = Column(String(255), nullable=True)
     github_url = Column(String(255), nullable=True)
     doc_url = Column(String(255), nullable=True)
+
+    achievements = relationship(
+        "ProjectAchievement",
+        back_populates="project",
+        cascade="all, delete-orphan"
+    )
+
+
+from app.models.project_achievements import ProjectAchievement

@@ -21,3 +21,5 @@ class Experience(Base):
         back_populates="experience",
         cascade="all, delete-orphan"
     )
+
+from app.models.experience_achievements import ExperienceAchievement

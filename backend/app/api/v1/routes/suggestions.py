@@ -1,23 +1,25 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
-from app.schemas.suggestions import SuggestionSchema
 from app.api.v1.controllers.suggestion_controller import (
     get_all_suggestions_controller,
     get_suggestion_by_uuid_controller
 )
+from app.core.response import success_response, error_response
+from app.schemas.common import ResponseModel
 
 router = APIRouter()
 
-@router.get("/", response_model=list[SuggestionSchema])
+@router.get("/", response_model=ResponseModel)
 def get_all_suggestions(db: Session = Depends(get_db)):
-    return get_all_suggestions_controller(db)
+    data = get_all_suggestions_controller(db)
+    return success_response("Suggestions fetched successfully", data)
 
-
-@router.get("/{uuid}", response_model=SuggestionSchema)
+@router.get("/{uuid}", response_model=ResponseModel)
 def get_suggestion_by_uuid(uuid: str, db: Session = Depends(get_db)):
     try:
-        return get_suggestion_by_uuid_controller(db, uuid)
+        data = get_suggestion_by_uuid_controller(db, uuid)
+        return success_response("Suggestions fetched successfully", data)
     except Exception as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        return error_response(str(e), status=404)

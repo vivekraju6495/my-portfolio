@@ -4,7 +4,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from datetime import datetime
 from app.core.database import Base
 
-class Analytics(Base):
+class AnalyticsSchema(Base):
     __tablename__ = "analytics"
 
     id = Column(Integer, primary_key=True, index=True)

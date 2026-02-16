@@ -13,3 +13,5 @@ class ProjectAchievement(Base):
     achievement_text = Column(Text, nullable=False)
 
     project = relationship("Project", back_populates="achievements")
+
+from app.models.projects import Project

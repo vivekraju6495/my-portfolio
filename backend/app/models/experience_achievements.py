@@ -15,3 +15,5 @@ class ExperienceAchievement(Base):
     achievement_text = Column(Text, nullable=False)
 
     experience = relationship("Experience", back_populates="achievements")
+
+from app.models.experience import Experience
