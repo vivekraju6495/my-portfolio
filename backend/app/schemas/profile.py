@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from uuid import UUID
-
-class ProfileSchema(BaseModel):
+class ProfileResponse(BaseModel):
+    id: int
     uuid: UUID
     name: str
     title: str

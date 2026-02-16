@@ -1,8 +1,8 @@
 """create all tables
 
-Revision ID: 94c4bea6677e
+Revision ID: 0833ed061892
 Revises: 
-Create Date: 2026-02-15 20:10:05.270462
+Create Date: 2026-02-15 23:11:20.510304
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '94c4bea6677e'
+revision: str = '0833ed061892'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -35,8 +35,8 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('uuid', sa.UUID(), nullable=False),
     sa.Column('name', sa.String(length=255), nullable=False),
-    sa.Column('issuer', sa.String(length=255), nullable=False),
-    sa.Column('year', sa.String(length=10), nullable=False),
+    sa.Column('issuer', sa.String(length=255), nullable=True),
+    sa.Column('year', sa.String(length=10), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('uuid')
     )
@@ -56,9 +56,9 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('uuid', sa.UUID(), nullable=False),
     sa.Column('degree', sa.String(length=255), nullable=False),
-    sa.Column('university', sa.String(length=255), nullable=False),
-    sa.Column('start_year', sa.String(length=10), nullable=False),
-    sa.Column('end_year', sa.String(length=10), nullable=False),
+    sa.Column('university', sa.String(length=255), nullable=True),
+    sa.Column('start_year', sa.String(length=10), nullable=True),
+    sa.Column('end_year', sa.String(length=10), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('uuid')
     )
@@ -67,10 +67,10 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('uuid', sa.UUID(), nullable=False),
     sa.Column('job_title', sa.String(length=255), nullable=False),
-    sa.Column('company', sa.String(length=255), nullable=False),
-    sa.Column('start_date', sa.String(length=50), nullable=False),
-    sa.Column('end_date', sa.String(length=50), nullable=False),
-    sa.Column('tech_stack', sa.Text(), nullable=False),
+    sa.Column('company', sa.String(length=255), nullable=True),
+    sa.Column('start_date', sa.String(length=50), nullable=True),
+    sa.Column('end_date', sa.String(length=50), nullable=True),
+    sa.Column('tech_stack', sa.Text(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('uuid')
     )
@@ -95,9 +95,9 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('uuid', sa.UUID(), nullable=False),
     sa.Column('project_name', sa.String(length=255), nullable=False),
-    sa.Column('role', sa.String(length=255), nullable=False),
-    sa.Column('tech_stack', sa.Text(), nullable=False),
-    sa.Column('description', sa.Text(), nullable=False),
+    sa.Column('role', sa.String(length=255), nullable=True),
+    sa.Column('tech_stack', sa.Text(), nullable=True),
+    sa.Column('description', sa.Text(), nullable=True),
     sa.Column('project_url', sa.String(length=255), nullable=True),
     sa.Column('github_url', sa.String(length=255), nullable=True),
     sa.Column('doc_url', sa.String(length=255), nullable=True),
