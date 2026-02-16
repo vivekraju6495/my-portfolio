@@ -2,6 +2,7 @@ import uuid
 from sqlalchemy import Column, Integer, String, Text
 from sqlalchemy.dialects.postgresql import UUID
 from app.core.database import Base
+from sqlalchemy.orm import relationship
 
 class Profile(Base):
     __tablename__ = "profiles"
@@ -18,3 +19,10 @@ class Profile(Base):
     github = Column(String(255), nullable=False)
     work_auth = Column(String(255), nullable=False)
     summary = Column(Text, nullable=False)
+
+    achievements = relationship(
+        "ProjectAchievement",
+        back_populates="project",
+        cascade="all, delete-orphan"
+    )
+

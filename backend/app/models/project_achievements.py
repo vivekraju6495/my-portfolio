@@ -2,7 +2,7 @@ import uuid
 from sqlalchemy import Column, Integer, Text, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
 from app.core.database import Base
-
+from sqlalchemy.orm import relationship
 class ProjectAchievement(Base):
     __tablename__ = "project_achievements"
 
@@ -11,3 +11,5 @@ class ProjectAchievement(Base):
 
     project_id = Column(Integer, ForeignKey("projects.id"))
     achievement_text = Column(Text, nullable=False)
+
+    project = relationship("Project", back_populates="achievements")

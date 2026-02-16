@@ -1,7 +1,7 @@
 from uuid import UUID
 from pydantic import BaseModel
 
-class ContactCreateSchema(BaseModel):
+class ContactMessageSchema(BaseModel):
     name: str
     email: str
     message: str

@@ -2,6 +2,8 @@ import uuid
 from sqlalchemy import Column, Integer, Text, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
 from app.core.database import Base
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
 
 class ExperienceAchievement(Base):
     __tablename__ = "experience_achievements"
@@ -12,3 +14,4 @@ class ExperienceAchievement(Base):
     experience_id = Column(Integer, ForeignKey("experience.id"))
     achievement_text = Column(Text, nullable=False)
 
+    experience = relationship("Experience", back_populates="achievements")

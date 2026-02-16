@@ -2,6 +2,7 @@ import uuid
 from sqlalchemy import Column, Integer, String, Text
 from sqlalchemy.dialects.postgresql import UUID
 from app.core.database import Base
+from sqlalchemy.orm import relationship
 
 class Experience(Base):
     __tablename__ = "experience"
@@ -14,3 +15,9 @@ class Experience(Base):
     start_date = Column(String(50), nullable=True)
     end_date = Column(String(50), nullable=True)
     tech_stack = Column(Text, nullable=True)
+
+    achievements = relationship(
+        "ExperienceAchievement",
+        back_populates="experience",
+        cascade="all, delete-orphan"
+    )

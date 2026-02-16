@@ -58,11 +58,12 @@ def health():
 # API Routers
 # -----------------------------
 app.include_router(profile.router, prefix="/api/v1/profile", tags=["Profile"])
-# app.include_router(skills.router, prefix="/api/v1/skills", tags=["Skills"])
-# app.include_router(experience.router, prefix="/api/v1/experience", tags=["Experience"])
-# app.include_router(projects.router, prefix="/api/v1/projects", tags=["Projects"])
-# app.include_router(educations.router, prefix="/api/v1/education", tags=["Educations"])
-# app.include_router(certifications.router, prefix="/api/v1/certifications", tags=["Certifications"])
-# app.include_router(contact_messages.router, prefix="/api/v1/contact", tags=["Contact Messages"])
-# app.include_router(suggestions.router, prefix="/api/v1/suggestions", tags=["Suggestions"])
+app.include_router(skills.router, prefix="/api/v1/skills", tags=["Skills"])
+app.include_router(experience.router, prefix="/api/v1/experience", tags=["Experience"])
+app.include_router(projects.router, prefix="/api/v1/projects", tags=["Projects"])
+app.include_router(educations.router, prefix="/api/v1/education", tags=["Educations"])
+app.include_router(certifications.router, prefix="/api/v1/certifications", tags=["Certifications"])
+
+app.include_router(contact_messages.router, prefix="/api/v1/contact", tags=["Contact Messages"])
+app.include_router(suggestions.router, prefix="/api/v1/suggestions", tags=["Suggestions"])
 # app.include_router(analytics.router, prefix="/api/v1/analytics", tags=["Analytics"])
