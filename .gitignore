@@ -4,7 +4,9 @@ __pycache__/
 *.pyo
 *.pyd
 *.pdb
+*.egg
 *.egg-info/
+.eggs/
 .env
 venv/
 .env.*
@@ -51,3 +53,11 @@ out/
 # PostgreSQL dumps
 *.sql
 *.dump
+
+# Test / Coverage
+.coverage
+htmlcov/
+pytest_cache/
+
+# Alembic cache
+alembic/__pycache__/

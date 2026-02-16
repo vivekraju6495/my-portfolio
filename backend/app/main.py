@@ -1,21 +1,17 @@
-from fastapi import FastAPI
-from app.api.v1.routes import profile
-from app.core.config import setup_cors
+from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
-from fastapi import Request
+
+from app.core.settings import settings
+from app.core.config import setup_cors
 from app.schemas.common import ResponseModel
+from app.api.v1.routes import profile
 
 app = FastAPI(
-    title="Vivek Portfolio API",
+    title=settings.APP_NAME,
     description="Backend API powering my AI portfolio.",
     version="1.0.0",
-    openapi_tags=[
-        {"name": "Profile", "description": "Resume and personal info"},
-        {"name": "Experience", "description": "Work history"},
-        {"name": "Projects", "description": "Portfolio projects"},
-        {"name": "AI", "description": "LLM-powered tools"},
-    ]
 )
+
 setup_cors(app)
 
 @app.exception_handler(Exception)

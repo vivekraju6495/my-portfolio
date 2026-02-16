@@ -1,6 +1,17 @@
 from pydantic import BaseModel
+from uuid import UUID
 
-class Profile(BaseModel):
+class ProfileSchema(BaseModel):
+    uuid: UUID
     name: str
-    role: str
+    title: str
+    location: str
+    email: str
+    phone: str
+    linkedin: str
+    github: str
+    work_auth: str
     summary: str
+
+    class Config:
+        from_attributes = True

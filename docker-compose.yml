@@ -2,13 +2,12 @@ services:
   backend:
     build: ./backend
     container_name: portfolio-backend
+    env_file:
+      - ./backend/.env
     ports:
       - "8000:8000"
     depends_on:
       - db
-    environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/portfolio
-
   frontend:
     build: ./frontend
     container_name: portfolio-frontend
