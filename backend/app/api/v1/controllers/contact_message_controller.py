@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.schemas.contact_messages import ContactMessageSchema
+from app.schemas.contact_messages import ContactMessageCreateSchema, ContactMessageSchema
 from app.services.contact_message_service import ContactMessageService
 
 def get_all_contact_messages_controller(db: Session):
@@ -12,3 +12,7 @@ def get_contact_message_by_uuid_controller(db: Session, uuid: str):
     if not msg:
         raise Exception("Contact message not found")
     return ContactMessageSchema.model_validate(msg)
+
+def create_contact_message_controller(db: Session, payload: ContactMessageCreateSchema):
+    message = ContactMessageService.create(db, payload)
+    return ContactMessageSchema.model_validate(message)

@@ -1,17 +1,19 @@
+from pydantic import BaseModel, EmailStr
+from datetime import datetime
 from uuid import UUID
-from pydantic import BaseModel
 
 class ContactMessageSchema(BaseModel):
-    name: str
-    email: str
-    message: str
-
-class ContactResponseSchema(BaseModel):
     uuid: UUID
     name: str
-    email: str
+    email: EmailStr
     message: str
+    created_at: datetime
 
     class Config:
         from_attributes = True
 
+
+class ContactMessageCreateSchema(BaseModel):
+    name: str
+    email: EmailStr
+    message: str

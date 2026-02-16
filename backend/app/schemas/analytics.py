@@ -1,15 +1,13 @@
-import uuid
-from sqlalchemy import Column, Integer, DateTime
-from sqlalchemy.dialects.postgresql import UUID
+from pydantic import BaseModel
 from datetime import datetime
-from app.core.database import Base
+from uuid import UUID
 
-class AnalyticsSchema(Base):
-    __tablename__ = "analytics"
+class AnalyticsSchema(BaseModel):
+    id: int
+    uuid: UUID
+    visitors_count: int
+    resume_download_count: int
+    last_updated: datetime
 
-    id = Column(Integer, primary_key=True, index=True)
-    uuid = Column(UUID(as_uuid=True), default=uuid.uuid4, unique=True, nullable=False)
-
-    visitors_count = Column(Integer, default=0)
-    resume_download_count = Column(Integer, default=0)
-    last_updated = Column(DateTime, default=datetime.utcnow)
+    class Config:
+        from_attributes = True

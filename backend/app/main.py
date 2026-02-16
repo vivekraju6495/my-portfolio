@@ -66,4 +66,4 @@ app.include_router(certifications.router, prefix="/api/v1/certifications", tags=
 
 app.include_router(contact_messages.router, prefix="/api/v1/contact", tags=["Contact Messages"])
 app.include_router(suggestions.router, prefix="/api/v1/suggestions", tags=["Suggestions"])
-# app.include_router(analytics.router, prefix="/api/v1/analytics", tags=["Analytics"])
+app.include_router(analytics.router, prefix="/api/v1/analytics", tags=["Analytics"])
