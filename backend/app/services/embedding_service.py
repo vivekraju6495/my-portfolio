@@ -25,11 +25,18 @@ class EmbeddingService:
     async def _local_embedding(self, text: str) -> list[float]:
         async with httpx.AsyncClient(timeout=settings.AI_TIMEOUT_SECONDS) as client:
             response = await client.post(
-                "http://localhost:11434/api/embeddings",
-                json={"model": "llama3", "prompt": text}
+                "http://host.docker.internal:11434/api/embeddings",
+                json={
+                    "model": "llama3",
+                    "prompt": text,
+                    "stream": False
+                }
             )
             data = response.json()
             return data.get("embedding", [])
+
+
+
 
     # ---------------------------------------------------------
     # OPENAI EMBEDDINGS
