@@ -12,6 +12,7 @@ It is fully dynamic (database‑driven) and includes AI tools for resume Q&A, jo
 - Python
 - PostgreSQL
 - pgvector (for embeddings)
+- Redis (for Rate-Limiting)
 - Docker
 
 ### Frontend
@@ -97,12 +98,40 @@ Every API returns a consistent JSON structure:
   "data": { }
 }
 ---
-## 📌 Current Status
 
-- Backend, frontend, database schema, and project setup are complete.  
-- Next step: **Implementing FastAPI endpoints (Step 11).**
+## ⚡ Performance & Security Features
 
----
+Redis‑Powered Rate Limiting
+The backend uses Redis to enforce production‑grade rate limiting on sensitive endpoints such as:
+- Resume download
+- Contact form submissions
+- Suggestions API
+This protects the API from abuse and ensures fair usage.
+Rate limiting is fully configurable via environment variables
+
+  # Example
+    RATE_LIMIT_RESUME_TIMES=3
+    RATE_LIMIT_RESUME_SECONDS=60
+
+    Users can download the resume 3 times per minute before receiving a 429 Too Many Requests response.
+
+## 🩺 Health Check (with Redis Status)
+The /health endpoint returns real‑time system status, including Redis connectivity:
+
+  `GET http://localhost:8000/health`
+
+  {
+    "success": true,
+    "message": "Health check successful",
+    "status": 200,
+    "data": {
+      "status": "ok",
+      "redis": "connected"
+    }
+  }
+  If Redis Connection faild, Response show:
+   
+  "redis": "failed"
 
 ## 📞 Contact
 
