@@ -1,16 +1,19 @@
+from pydantic import BaseModel, EmailStr
+from datetime import datetime
 from uuid import UUID
-from pydantic import BaseModel
 
 class SuggestionSchema(BaseModel):
-    name: str | None
-    email: str | None
-    suggestion: str
-
-class SuggestionResponseSchema(BaseModel):
+    id: int
     uuid: UUID
-    name: str | None
-    email: str | None
     suggestion: str
+    created_at: datetime
 
     class Config:
         from_attributes = True
+
+
+class SuggestionCreateSchema(BaseModel):
+    name: str | None = None
+    email: EmailStr | None = None
+    suggestion: str
+
