@@ -19,8 +19,6 @@ class Settings(BaseSettings):
     DB_PASSWORD: str
     DB_NAME: str
 
-    OPENAI_API_KEY: str | None = None
-
     BACKEND_CORS_ORIGINS: List[str] = Field(default_factory=list)
 
     REDIS_URL: str
@@ -36,5 +34,25 @@ class Settings(BaseSettings):
 
     RESUME_FILE_PATH: str
     RESUME_FILE_NAME: str
+
+
+    # AI Provider
+    AI_PROVIDER: str = Field(default="local")  
+    # options: "local" or "openai"
+
+    # Local AI (Ollama)
+    LOCAL_AI_URL: str = Field(default="http://localhost:11434/api/generate")
+
+
+    # OpenAI (Production)
+    OPENAI_API_KEY: str | None = None
+    OPENAI_MODEL: str = Field(default="gpt-4.1-mini")
+    OPENAI_EMBEDDING_MODEL: str = Field(default="text-embedding-3-small")
+    # AI Behavior
+    AI_TEMPERATURE: float = Field(default=0.2)
+    AI_MAX_TOKENS: int = Field(default=800)
+    AI_TIMEOUT_SECONDS: int = Field(default=30)
+    AI_MAX_RETRIES: int = Field(default=3)
+
 
 settings = Settings()

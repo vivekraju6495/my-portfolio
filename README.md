@@ -136,6 +136,18 @@ The /health endpoint returns real‑time system status, including Redis connecti
    
       - "redis": "failed"
 
+## 🗄 Redis Integration
+  Redis is used for:
+  - Rate limiting counters
+  - TTL‑based request tracking
+  - Fast, in‑memory operations
+  You can inspect Redis keys using RedisInsight, a GUI tool that visualizes:
+  - Rate‑limit keys
+  - TTL countdown
+  - API usage patterns
+  Redis runs inside Docker and is exposed on:
+
+
 ## 📞 Contact
 
 If you're reviewing this project, feel free to reach out.
