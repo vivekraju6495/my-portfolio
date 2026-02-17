@@ -91,12 +91,14 @@ Example:
 
 Every API returns a consistent JSON structure:
 
+**
 {
   "success": true,
   "message": "Description of the result",
   "status": 200,
   "data": { }
 }
+**
 ---
 
 ## ⚡ Performance & Security Features
@@ -109,9 +111,9 @@ The backend uses Redis to enforce production‑grade rate limiting on sensitive 
 This protects the API from abuse and ensures fair usage.
 Rate limiting is fully configurable via environment variables
 
-  # Example
-    RATE_LIMIT_RESUME_TIMES=3
-    RATE_LIMIT_RESUME_SECONDS=60
+  Example:
+  - RATE_LIMIT_RESUME_TIMES=3
+  - RATE_LIMIT_RESUME_SECONDS=60
 
     Users can download the resume 3 times per minute before receiving a 429 Too Many Requests response.
 
@@ -119,7 +121,7 @@ Rate limiting is fully configurable via environment variables
 The /health endpoint returns real‑time system status, including Redis connectivity:
 
   `GET http://localhost:8000/health`
-
+**
   {
     "success": true,
     "message": "Health check successful",
@@ -129,6 +131,7 @@ The /health endpoint returns real‑time system status, including Redis connecti
       "redis": "connected"
     }
   }
+**
   If Redis Connection faild, Response show:
    
   "redis": "failed"
