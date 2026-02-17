@@ -23,4 +23,18 @@ class Settings(BaseSettings):
 
     BACKEND_CORS_ORIGINS: List[str] = Field(default_factory=list)
 
+    REDIS_URL: str
+
+    RATE_LIMIT_RESUME_TIMES: int = 3
+    RATE_LIMIT_RESUME_SECONDS: int = 60
+
+    RATE_LIMIT_CONTACT_TIMES: int = 1
+    RATE_LIMIT_CONTACT_SECONDS: int = 60
+
+    RATE_LIMIT_SUGGESTIONS_TIMES: int = 1
+    RATE_LIMIT_SUGGESTIONS_SECONDS: int = 60
+
+    RESUME_FILE_PATH: str
+    RESUME_FILE_NAME: str
+
 settings = Settings()

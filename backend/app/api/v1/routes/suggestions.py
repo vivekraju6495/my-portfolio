@@ -10,6 +10,8 @@ from app.api.v1.controllers.suggestion_controller import (
 from app.core.response import success_response, error_response
 from app.schemas.common import ResponseModel
 from app.schemas.suggestions import SuggestionCreateSchema
+from fastapi_limiter.depends import RateLimiter
+from app.core.settings import settings
 
 router = APIRouter()
 
@@ -26,7 +28,15 @@ def get_suggestion_by_uuid(uuid: str, db: Session = Depends(get_db)):
     except Exception as e:
         return error_response(str(e), status=404)
 
-@router.post("/", response_model=ResponseModel)
+@router.post("/", response_model=ResponseModel, dependencies=[
+        Depends(
+            RateLimiter(
+                times=settings.RATE_LIMIT_SUGGESTIONS_TIMES,
+                seconds=settings.RATE_LIMIT_SUGGESTIONS_SECONDS
+            )
+        )
+    ]
+)
 def create_suggestion(payload: SuggestionCreateSchema, db: Session = Depends(get_db)):
     try:
         data = create_suggestion_controller(db, payload)

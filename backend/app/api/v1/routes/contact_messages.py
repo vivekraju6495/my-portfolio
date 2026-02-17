@@ -9,6 +9,8 @@ from app.api.v1.controllers.contact_message_controller import (
 from app.core.response import success_response, error_response
 from app.schemas.common import ResponseModel
 from app.schemas.contact_messages import ContactMessageCreateSchema
+from fastapi_limiter.depends import RateLimiter
+from app.core.settings import settings
 
 router = APIRouter()
 
@@ -25,7 +27,15 @@ def get_contact_message_by_uuid(uuid: str, db: Session = Depends(get_db)):
     except Exception as e:
          return error_response(str(e), status=404)
 
-@router.post("/", response_model=ResponseModel)
+@router.post("/", response_model=ResponseModel, dependencies=[
+        Depends(
+            RateLimiter(
+                times=settings.RATE_LIMIT_CONTACT_TIMES,
+                seconds=settings.RATE_LIMIT_CONTACT_SECONDS
+            )
+        )
+    ]
+)
 def create_contact_message(payload: ContactMessageCreateSchema, db: Session = Depends(get_db)):
     try:
         data = create_contact_message_controller(db, payload)

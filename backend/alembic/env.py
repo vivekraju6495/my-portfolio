@@ -9,6 +9,9 @@ from app.core.settings import settings
 from app.core.database import Base
 
 
+#alembic revision --autogenerate -m "create all tables" - migration
+#alembic upgrade head   - update
+#python -m app.db.seeder
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
