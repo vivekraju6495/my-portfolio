@@ -91,14 +91,14 @@ Example:
 
 Every API returns a consistent JSON structure:
 
-**
-{
-  "success": true,
-  "message": "Description of the result",
-  "status": 200,
-  "data": { }
-}
-**
+
+    {
+      "success": true,
+      "message": "Description of the result",
+      "status": 200,
+      "data": { }
+    }
+
 ---
 
 ## ⚡ Performance & Security Features
@@ -120,8 +120,8 @@ Rate limiting is fully configurable via environment variables
 ## 🩺 Health Check (with Redis Status)
 The /health endpoint returns real‑time system status, including Redis connectivity:
 
-  `GET http://localhost:8000/health`
-**
+ - `GET http://localhost:8000/health`
+
   {
     "success": true,
     "message": "Health check successful",
@@ -131,10 +131,10 @@ The /health endpoint returns real‑time system status, including Redis connecti
       "redis": "connected"
     }
   }
-**
-  If Redis Connection faild, Response show:
+
+  - If Redis Connection faild, Response show:
    
-  "redis": "failed"
+      - "redis": "failed"
 
 ## 📞 Contact
 
