@@ -51,31 +51,36 @@ class ResumeRAGService:
         # 1. Embed the question
         query_embedding = await self.embedder.embed(question)
 
-        # 2. Detect categories from the question
+        # 2. Detect categories
         categories = self._detect_categories(question)
-
+        print("categories :", categories)
         # 3. Category-aware retrieval
-        if categories:
-            rows = db.execute(
-                text("""
-                    SELECT chunk_text
-                    FROM resume_chunks
-                    WHERE category = ANY(:categories)
-                    ORDER BY embedding <-> (:query_embedding)::vector
-                    LIMIT 25
-                """),
-                {"categories": categories, "query_embedding": query_embedding},
-            ).fetchall()
-        else:
-            rows = db.execute(
-                text("""
-                    SELECT chunk_text
-                    FROM resume_chunks
-                    ORDER BY embedding <-> (:query_embedding)::vector
-                    LIMIT 25
-                """),
-                {"query_embedding": query_embedding},
-            ).fetchall()
+        try:
+                if categories:
+                    rows = db.execute(
+                        text("""
+                            SELECT chunk_text
+                            FROM resume_chunks
+                            WHERE category = ANY(:categories)
+                            ORDER BY embedding <-> (:query_embedding)::vector
+                            LIMIT 25
+                        """),
+                        {"categories": categories, "query_embedding": query_embedding},
+                    ).fetchall()
+                else:
+                    rows = db.execute(
+                        text("""
+                            SELECT chunk_text
+                            FROM resume_chunks
+                            ORDER BY embedding <-> (:query_embedding)::vector
+                            LIMIT 25
+                        """),
+                        {"query_embedding": query_embedding},
+                    ).fetchall()
+
+        except Exception as e:
+                print("ERROR :", str(e))
+                raise
 
         context = "\n".join([row.chunk_text for row in rows])
 

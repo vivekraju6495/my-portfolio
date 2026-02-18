@@ -23,6 +23,7 @@ def upgrade():
         "resume_chunks",
         sa.Column("categorys", sa.String(), nullable=True)
     )
-
+    op.drop_column("resume_chunks", "categorys")
+    
 def downgrade():
     op.drop_column("resume_chunks", "categorys")
