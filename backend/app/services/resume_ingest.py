@@ -36,10 +36,7 @@ class ResumeIngestService:
             FROM educations
         """)).fetchall()
 
-        skills = db.execute(text("""
-            SELECT skill_name, category 
-            FROM skills
-        """)).fetchall()
+        skills = db.execute(text("SELECT skill_name, category FROM skills")).fetchall()
 
         projects = db.execute(text("""
             SELECT project_name, role, description, tech_stack, project_url, github_url, doc_url 
@@ -61,57 +58,78 @@ class ResumeIngestService:
 
         # Profile summary
         for row in profile:
-            blocks.append(row.summary)
+            blocks.append((row.summary, "profile"))
+
 
         # Experience
         for row in experience:
-            blocks.append(
-                f"{row.job_title} at {row.company}. Tech stack used: {row.tech_stack}"
-            )
+            text_block = f"{row.job_title} at {row.company}. Tech stack used: {row.tech_stack}"
+            blocks.append((text_block, "experience"))
+
 
         # Experience achievements
         for row in experience_achievements:
-            blocks.append(row.achievement_text)
+            blocks.append((row.achievement_text, "experience_achievements"))
 
         # Education
         for row in education:
-            blocks.append(
-                f"{row.degree} from {row.university} ({row.start_year} - {row.end_year})"
-            )
+            text_block = f"{row.degree} from {row.university} ({row.start_year} - {row.end_year})"
+            blocks.append((text_block, "education"))
+
 
         # Skills
-        for row in skills:
-            blocks.append(f"{row.category}: {row.skill_name}")
+        # for row in skills:
+        #     blocks.append(f"{row.category}: {row.skill_name}")
+
+        grouped = {}
+
+        for s in skills:
+            cat = s.category or "Other"
+            if cat not in grouped:
+                grouped[cat] = []
+            grouped[cat].append(s.skill_name)
+
+        # Create semantic chunks
+        for category, items in grouped.items():
+            chunk = f"{category} Skills: " + ", ".join(items)
+            blocks.append((chunk, "skills"))
 
         # Projects
         for row in projects:
-            blocks.append(
+            text_block = (
                 f"{row.project_name} — Role: {row.role}. "
                 f"{row.description}. Tech stack: {row.tech_stack}. "
                 f"Links: {row.project_url}, {row.github_url}, {row.doc_url}"
             )
+            blocks.append((text_block, "projects"))
+
 
         # Project achievements
         for row in project_achievements:
-            blocks.append(row.achievement_text)
+            blocks.append((row.achievement_text, "project_achievements"))
 
         # Certifications
         for row in certifications:
-            blocks.append(
-                f"{row.name} issued by {row.issuer} in {row.year}"
-            )
+            text_block = f"{row.name} issued by {row.issuer} in {row.year}"
+            blocks.append((text_block, "certifications"))
+
 
         # 3. Chunk + embed + store
-        for block in blocks:
-            embedding = embedder.embed_sync(block)
+        for block_text, category in blocks:
+            embedding = embedder.embed_sync(block_text)
 
             db.execute(
                 text("""
-                    INSERT INTO resume_chunks (chunk_text, embedding)
-                    VALUES (:chunk_text, :embedding)
+                    INSERT INTO resume_chunks (chunk_text, embedding, category)
+                    VALUES (:chunk_text, :embedding, :category)
                 """),
-                {"chunk_text": block, "embedding": embedding}
+                {
+                    "chunk_text": block_text,
+                    "embedding": embedding,
+                    "category": category,
+                },
             )
+
 
         db.commit()
         db.close()

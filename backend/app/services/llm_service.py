@@ -16,7 +16,7 @@ class LLMService:
     async def _local_llm(self, prompt: str) -> str:
         async with httpx.AsyncClient(timeout=settings.AI_TIMEOUT_SECONDS) as client:
             response = await client.post(
-                "http://host.docker.internal:11434/api/generate",
+                "http://host.docker.internal:11434/api/generate",  #http://host.docker.internal:11434
                 json={
                     "model": "llama3",
                     "prompt": prompt,
