@@ -77,6 +77,15 @@ async def global_exception_handler(request: Request, exc: Exception):
 # -----------------------------
 # Health Check
 # -----------------------------
+@app.get("/")
+def root():
+    return {"service": "alive"}
+
+@app.get("/check")
+def root():
+    return {"service": "alive"}
+
+
 @app.get("/health", response_model=ResponseModel)
 async def health(request: Request):
     redis_status = "unknown"
