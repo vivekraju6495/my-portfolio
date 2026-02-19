@@ -9,4 +9,7 @@ pydantic-settings
 email-validator
 redis
 fastapi-limiter==0.1.5
-
+httpx
+openai
+pdfplumber
+pgvector

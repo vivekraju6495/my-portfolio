@@ -44,6 +44,7 @@ from app.models.certifications import Certification
 from app.models.contact_messages import ContactMessage
 from app.models.suggestions import Suggestion
 from app.models.analytics import Analytics
+from app.models.resume_chunk import ResumeChunk
 
 target_metadata = Base.metadata
 
