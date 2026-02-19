@@ -26,7 +26,6 @@ It is fully dynamic (database‑driven) and includes AI tools for resume Q&A, jo
 - Embeddings stored in pgvector
 - Resume Q&A
 - Job Description Analyzer
-- Skills Gap Insights
 - Personal Chatbot
 
 ---
@@ -43,10 +42,7 @@ Paste a JD → get:
 - Missing skills  
 - Suggestions  
 
-### 3. Skills Gap Insights  
-Compares my resume to a target role.
-
-### 4. Personal Chatbot  
+### 3. Personal Chatbot  
 Chatbot trained on:
 - My resume  
 - My experience  
