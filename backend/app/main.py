@@ -21,7 +21,8 @@ from app.api.v1.routes import (
     contact_messages,
     suggestions,
     analytics,
-    ai
+    ai,
+    chatbot
 )
 
 logger = logging.getLogger("uvicorn.error")
@@ -118,3 +119,4 @@ app.include_router(analytics.router, prefix="/api/v1/analytics", tags=["Analytic
 
 
 app.include_router(ai.router, prefix="/api/v1/ai", tags=["AI"])
+app.include_router(chatbot.router, prefix="/api/v1/ai", tags=["AI ChatBot"])
