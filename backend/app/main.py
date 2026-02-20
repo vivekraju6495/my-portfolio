@@ -25,6 +25,9 @@ from app.api.v1.routes import (
     chatbot
 )
 
+from app.admin_tasks import router as admin_router
+
+
 logger = logging.getLogger("uvicorn.error")
 
 @asynccontextmanager
@@ -129,3 +132,4 @@ app.include_router(analytics.router, prefix="/api/v1/analytics", tags=["Analytic
 
 app.include_router(ai.router, prefix="/api/v1/ai", tags=["AI"])
 app.include_router(chatbot.router, prefix="/api/v1/ai", tags=["AI ChatBot"])
+app.include_router(admin_router)
