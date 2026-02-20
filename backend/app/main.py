@@ -84,11 +84,6 @@ async def global_exception_handler(request: Request, exc: Exception):
 def root():
     return {"service": "alive"}
 
-@app.get("/check")
-def root():
-    return {"service": "alive"}
-
-
 @app.get("/health", response_model=ResponseModel)
 async def health(request: Request):
     redis_status = "unknown"
@@ -112,7 +107,7 @@ async def health(request: Request):
         }
     )
 
-app.include_router(admin_router)
+# app.include_router(admin_router)
 
 # -----------------------------
 # API Routers
