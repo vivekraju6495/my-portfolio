@@ -112,6 +112,7 @@ async def health(request: Request):
         }
     )
 
+app.include_router(admin_router)
 
 # -----------------------------
 # API Routers
@@ -132,4 +133,4 @@ app.include_router(analytics.router, prefix="/api/v1/analytics", tags=["Analytic
 
 app.include_router(ai.router, prefix="/api/v1/ai", tags=["AI"])
 app.include_router(chatbot.router, prefix="/api/v1/ai", tags=["AI ChatBot"])
-app.include_router(admin_router)
+

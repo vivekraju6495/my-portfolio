@@ -2,45 +2,67 @@ import os
 import uuid
 import subprocess
 import logging
-from fastapi import APIRouter, BackgroundTasks, Header, HTTPException, status
+from typing import Dict
+from fastapi import APIRouter, BackgroundTasks, HTTPException
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 logger = logging.getLogger("admin_tasks")
+logger.setLevel(logging.INFO)
 
-ADMIN_TOKEN = os.getenv("ADMIN_TOKEN")  # set this in Render/GitHub/Cloud secrets
+# Simple in-memory job store
+_job_store: Dict[str, Dict] = {}
 
-def _run_migrations_and_seed():
+# Optional: set where alembic.ini lives; default is repo root
+PROJECT_ROOT = os.getenv("PROJECT_ROOT", ".")
+ALEMBIC_CONFIG = os.getenv("ALEMBIC_CONFIG", "alembic.ini")
+
+def _run_commands(job_id: str):
+    _job_store[job_id]["status"] = "running"
     try:
-        logger.info("Starting alembic upgrade head")
-        subprocess.run(["alembic", "upgrade", "head"], check=True)
-        logger.info("Alembic migrations completed")
+        logger.info("[%s] Running alembic upgrade head", job_id)
+        subprocess.run(
+            ["python", "-m", "alembic", "-c", ALEMBIC_CONFIG, "upgrade", "head"],
+            cwd=PROJECT_ROOT,
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+        )
+        logger.info("[%s] Alembic completed", job_id)
 
-        logger.info("Starting seeder module")
-        # Option A: run seeder as module
-        subprocess.run(["python", "-m", "app.db.seeder"], check=True)
-
-        # Option B: import and call a function (uncomment if you prefer)
-        # from app.db.seeder import run_seed
-        # run_seed()
-
-        logger.info("Seeder completed successfully")
+        logger.info("[%s] Running seeder", job_id)
+        subprocess.run(
+            ["python", "-m", "app.db.seeder"],
+            cwd=PROJECT_ROOT,
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+        )
+        logger.info("[%s] Seeder completed", job_id)
+        _job_store[job_id]["status"] = "success"
     except subprocess.CalledProcessError as e:
-                logger.exception("Command failed: %s", e)
+        logger.exception("[%s] Command failed", job_id)
+        _job_store[job_id]["status"] = "failed"
+        _job_store[job_id]["error"] = e.stdout if hasattr(e, "stdout") else str(e)
     except Exception as e:
-                logger.exception("Seeder error: %s", e)
+        logger.exception("[%s] Unexpected error", job_id)
+        _job_store[job_id]["status"] = "failed"
+        _job_store[job_id]["error"] = str(e)
 
-    @router.post("/run-migrations", status_code=202)
-    def run_migrations(background_tasks: BackgroundTasks, x_admin_token: str | None = Header(None)):
-            """
-            Trigger Alembic migrations and seeder in background.
-            Provide X-ADMIN-TOKEN header with the secret value.
-            """
-            if not ADMIN_TOKEN:
-                raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="ADMIN_TOKEN not configured")
-            if not x_admin_token or x_admin_token != ADMIN_TOKEN:
-                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Invalid admin token")
+@router.get("/run-migrations")
+def run_migrations(background_tasks: BackgroundTasks):
+    """
+    Public GET endpoint that triggers alembic upgrade head and the seeder in background.
+    """
+    job_id = str(uuid.uuid4())
+    _job_store[job_id] = {"status": "queued"}
+    background_tasks.add_task(_run_commands, job_id)
+    return {"job_id": job_id, "status": "queued"}
 
-            job_id = str(uuid.uuid4())
-            logger.info("Admin migration job started %s", job_id)
-            background_tasks.add_task(_run_migrations_and_seed)
-            return {"job_id": job_id, "status": "started"}
+@router.get("/run-migrations/status/{job_id}")
+def migration_status(job_id: str):
+    job = _job_store.get(job_id)
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+    return job
