@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-
+import pandas as pd
+import numpy as np
 from app.core.database import get_db
 from app.api.v1.controllers.analytics_controller import (
     get_analytics_controller,
@@ -11,6 +12,7 @@ from app.api.v1.controllers.analytics_controller import (
 )
 from app.core.response import success_response, error_response
 from app.schemas.common import ResponseModel
+from app.models.skills import Skill
 
 router = APIRouter()
 
@@ -57,3 +59,50 @@ def increment_api_hits(db: Session = Depends(get_db)):
         return success_response("API hit count incremented", data)
     except Exception as e:
         return error_response(str(e), status=400)
+
+@router.post("/insights")
+def resume_insights(text: str):
+    # Split into words
+    words = text.split()
+    df = pd.DataFrame({"word": words})
+
+    # Frequency of top words
+    top_words = df["word"].value_counts().head(10).to_dict()
+
+    # Average word length
+    avg_word_length = float(np.mean([len(w) for w in words])) if words else 0
+
+    # Sentence count
+    sentences = [s for s in text.split(".") if s.strip()]
+    sentence_count = len(sentences)
+
+    return {
+        "word_count": len(words),
+        "sentence_count": sentence_count,
+        "top_words": top_words,
+        "avg_word_length": avg_word_length,
+    }
+
+@router.get("/skills/analyze")
+def analyze_skills(db: Session = Depends(get_db)):
+
+    # Fetch skill name + category from DB
+    skill_records = db.query(Skill.skill_name, Skill.category).all()
+
+    if not skill_records:
+        return {
+            "total_skills": 0,
+            "category_breakdown": {}
+        }
+
+    # Convert to DataFrame
+    df = pd.DataFrame(skill_records, columns=["skill", "category"])
+
+    # Group and count by category
+    counts = df.groupby("category").size().to_dict()
+
+    return {
+        "total_skills": len(df),
+        "category_breakdown": counts,
+        "categories": df["category"].unique().tolist()
+    }

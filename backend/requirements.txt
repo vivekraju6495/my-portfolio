@@ -13,3 +13,5 @@ httpx
 openai
 pdfplumber
 pgvector
+pandas
+numpy

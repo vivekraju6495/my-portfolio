@@ -1,7 +1,7 @@
 # My Portfolio — AI‑Powered Resume Website
 
 This is my personal portfolio project built with **FastAPI**, **Next.js**, **PostgreSQL + pgvector**, and **Docker**.  
-It is fully dynamic (database‑driven) and includes AI tools for resume Q&A, job fit analysis, and skill insights.
+It is fully dynamic (database‑driven) and includes AI tools for resume Q&A, job fit analysis, skill insights, and more.
 
 ---
 
@@ -26,9 +26,17 @@ It is fully dynamic (database‑driven) and includes AI tools for resume Q&A, jo
 - Embeddings stored in pgvector
 - Resume Q&A
 - Job Description Analyzer
-- Skills Gap Insights
 - Personal Chatbot
 
+## 🛠 Tech Stack Badges
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ---
 
 ## 🧠 AI Features
@@ -43,16 +51,35 @@ Paste a JD → get:
 - Missing skills  
 - Suggestions  
 
-### 3. Skills Gap Insights  
-Compares my resume to a target role.
-
-### 4. Personal Chatbot  
+### 3. Personal Chatbot  
 Chatbot trained on:
 - My resume  
 - My experience  
 - My projects  
 - My portfolio content  
 
+---
+
+## 📊 Data Processing & Analytics Features (Pandas + NumPy)
+Your portfolio backend includes a lightweight data‑analysis layer powered by Pandas and NumPy, enabling structured insights and analytics directly from your API.
+
+### ✔ Resume Insights API
+Processes raw resume text and returns meaningful analytics:
+- Word count
+- Sentence count
+- Top 10 most frequent words
+- Average word length
+- Text preprocessing using Pandas + NumPy
+
+### ✔ Skills Analytics API
+Analyzes your skill set using Pandas DataFrames:
+- Skill categorization
+- Grouping by category
+- Total skill count
+- Category‑wise breakdown
+- Pandas DataFrame operations for fast analysis
+
+These features demonstrate real data‑processing capabilities and prepare the backend for future AI/RAG enhancements.
 ---
 
 ## 🐳 Running the Project (Docker)
